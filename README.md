@@ -220,6 +220,178 @@ tes spam ping melkor ke eru
 
 
 # MODUL 1 - WIRESHARK
+### 14. SHORTBF
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+<img width="1920" height="1013" alt="image" src="https://github.com/user-attachments/assets/2bf57cab-d535-4950-9da9-89e7d8d7a221" />
+
+#### Pengerjaan
+   Untuk awalan, saya mencoba untuk memfilter dengan kata kunci "user" karena ini adalah serangan brute force yang biasanya ada kata kunci "user" atau "password".
+   ```bash
+   frame contains "user"
+   ```
+   <img width="1341" height="570" alt="image" src="https://github.com/user-attachments/assets/4ebc29af-4e2f-4a17-9858-94f7113ba3b1" />
+   
+   Setelah itu kita coba TCP Stream salah satunya dengan cara *ctrl + alt + shift + T* atau dengan klik kanan->Follow->TCP Stream.
+   
+   <img width="459" height="346" alt="image" src="https://github.com/user-attachments/assets/d1cb703e-cd34-4726-b9ad-db5ed9e15eff" />
+   
+   nah karena di sini gagal, dan text gagal nya menggunaan bahasa inggris (invalid). Saya mencoba cari kata kunci yang berhasil seperti "success" menggunakan filter
+   ```bash
+   frame contains "success"
+   ```
+   <img width="927" height="108" alt="image" src="https://github.com/user-attachments/assets/fde181b2-ea2a-44f4-b3ce-79cb67348f67" />
+   
+   ternyata muncul, sekarang kita coba TCP Stream untuk mengecek apakah benar atau salah.
+   
+   <img width="1013" height="517" alt="image" src="https://github.com/user-attachments/assets/98b3a0c1-721b-439e-817a-3cffbee311e5" />
+   
+   Nahhhhh di sini berhasil mendapatkan username dan passwordnya. sekarang tinggal kita coba ke nc 10.15.43.32 3401
+
+   <img width="459" height="149" alt="image" src="https://github.com/user-attachments/assets/4231f13f-a336-4932-bd65-6f3eafd21c95" />
+   
+   Kita diminta untuk memasukkan banyaknya paket di file .pcapng ini, kita bisa lihat di kanan bawah wiresharknya
+   
+   <img width="307" height="56" alt="image" src="https://github.com/user-attachments/assets/f2e77686-e62e-4e4c-b6f9-e7ab891f4111" />
+
+   Di sini terlihat kalau total paketnya adalah 500358
+
+   <img width="514" height="226" alt="image" src="https://github.com/user-attachments/assets/80ad4a51-d19c-4293-8a39-77537076b131" />
+
+   Selanjutnya kita diminta untuk memasukkan user dan passwordnya. karena kita udah dapet tadi maka tinggal kita masukkan n1enna:y4v4nn4_k3m3nt4r1
+
+   <img width="466" height="286" alt="image" src="https://github.com/user-attachments/assets/993a0315-5ab9-4b24-a2d2-bb713c09157b" />
+
+   nahh karena user dan passwordnya bener sekarang kita diminta untuk mencari credentials nya di stream mana. ini bisa kita lihat di tempat filter ketika kita melakukan TCP Streamnya. Di mana streamnya adalah 41824.
+
+   <img width="454" height="370" alt="image" src="https://github.com/user-attachments/assets/ac1dcbf0-b64b-4e9d-b8a6-b7ed64d6bfc6" />
+
+   Sekarang kita diminta mencai tools yang dipakai untuk melakukan bruteforce. Ini bisa kita lihat di TCP Stream yang sama pada credentials. dimana tools nya adalah Fuzz Faster U Fool v2.1.0-dev
+
+   <img width="787" height="474" alt="image" src="https://github.com/user-attachments/assets/49c42830-5851-42ab-9116-4d2201211d57" />
+
+   DAN YAP! kita mendapatkan flagnya yaitu
+
+   KOMJAR25{Brut3_F0rc3_a0uVBelAaiWhDP9i8w5AlTmIt}
+
+### 15. Hiddenmsg
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+
+<img width="1901" height="1033" alt="image" src="https://github.com/user-attachments/assets/4743b7fd-bc6a-46e5-8a3d-b3fb99753fdf" />
+
+#### Pengerjaan
+Pertama kita coba filter USB dengan panjang 35 dengan filter
+```bash
+usb.transfer_type == 1 && frame.len == 35
+```
+<img width="1056" height="561" alt="image" src="https://github.com/user-attachments/assets/9e966544-4b2b-4fef-9514-a1147c1e1d10" />
+
+Setelah itu kita export menjadi file .txt dengan cara file->as plain text kemudian beri nama file nya dan uncheck box summary line dan pencet save.
+
+<img width="984" height="759" alt="image" src="https://github.com/user-attachments/assets/a8ba47b8-b45d-41b2-9dc6-9d3ec2a54a9b" />
+
+setelah kita dapet filenya, filenya kita terjemahkan menjadi text. Di sini saya memakai chatGPT untuk memintanya membantu saya menerjemahkan text
+
+<img width="1081" height="379" alt="image" src="https://github.com/user-attachments/assets/2cfd5651-d2c4-4a3c-a1bb-c1c431528989" />
+
+Nahhh ternyata setelah kita terjemahkan kita dapat textnya yaitu `UGx6X3ByMHYxZGVfeTB1cl91czNybjRtZV80bmRfcDRzc3cwcmQ=
+`. Setelah dapat textnya, kita decrypt dari base64 ke text.
+
+<img width="828" height="677" alt="image" src="https://github.com/user-attachments/assets/b673f0ef-6b60-4965-b9c1-8eebb8234fee" />
+
+Setelah kita decrypt kita dapat `Plz_pr0v1de_y0ur_us3rn4me_4nd_p4ssw0rd`
+
+Sekarang kita lanjut memasukkannya ke nc 10.15.43.32 3402
+
+<img width="467" height="150" alt="image" src="https://github.com/user-attachments/assets/a5160875-8ccf-4056-b7a5-83e535441985" />
+
+Di sini kita diminta untuk mencari tahu device apa yang dipakai Melkor. Di sini Melkor memakai Keyboard
+
+<img width="428" height="252" alt="image" src="https://github.com/user-attachments/assets/865a9115-2969-4b39-bf06-0a920e7c1ca1" />
+
+Karena benar sekarang kita diminta untuk mencari tahu apa yang ditulis. di sini kita masukkan terjemahan yang kita masukkan tadi yaitu `UGx6X3ByMHYxZGVfeTB1cl91czNybjRtZV80bmRfcDRzc3cwcmQ=`
+
+<img width="490" height="336" alt="image" src="https://github.com/user-attachments/assets/7ddf2800-dd3e-4683-a5f1-3418339e9cc3" />
+
+Di sini benar. Jadi sekarang kita masukkan kata yang sudah di decrypt tadi. yaitu `Plz_pr0v1de_y0ur_us3rn4me_4nd_p4ssw0rd`
+
+<img width="831" height="340" alt="image" src="https://github.com/user-attachments/assets/e6d16616-42d3-4458-bd73-38608215cdd2" />
+
+DAN YAP! Kita berhasil mendapatkan flagnya yaitu 
+flag: KOMJAR25{K3yb0ard_W4rr10r_EMvSlfpJrxonPy9WhDKf3UaaQ}
+
+
+### 16. Melkorplan1
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+
+<img width="1890" height="1003" alt="image" src="https://github.com/user-attachments/assets/965d3389-0b8b-4655-9d46-38358bf07528" />
+
+#### Pengerjaan
+Pertama kita filer "user"
+```bash
+frame contains"user"
+```
+
+<img width="1400" height="380" alt="image" src="https://github.com/user-attachments/assets/d034877b-5c42-4f7c-aff8-4882bd6f4db9" />
+
+Setelah itu kita lakukan TCP Stream yang paling atas.
+
+<img width="673" height="831" alt="image" src="https://github.com/user-attachments/assets/e681536f-bd9f-420b-b2aa-7ad7e0fad0c6" />
+
+Nah di sini kita sudah mendapatkan username dan passwordnya yaitu
+- Username: ind@psg420.com
+- Password: {6r_6e#TfT1p
+
+Kemudian kita coba filter "exe"
+```bash
+frame contains"exe"
+```
+<img width="1916" height="560" alt="image" src="https://github.com/user-attachments/assets/acae2180-fb7d-4459-8c3f-8ef068f4be29" />
+
+Nah di sini kita bisa lihat berapa banyak file yang ada yaitu ada 5 ( q,w,e,r,t ). Yang berguna nanti saat kita masukkan ke nc 10.15.43.32 3403
+
+Sekarang kita lanjut ke nc 10.15.43.32 3403
+
+<img width="533" height="220" alt="image" src="https://github.com/user-attachments/assets/49c863e6-09da-4955-bfc3-32fa4ea3aa11" />
+
+Di sini kita diminta memasukkan credentials yang sudah kita temukan tadi yaitu `ind@psg420.com:{6r_6e#TfT1p`
+
+<img width="494" height="233" alt="image" src="https://github.com/user-attachments/assets/98382255-ff7f-4ca5-9886-752530199ccc" />
+
+Nahhhhh karena berhasil, selanjutnya kita diminta untuk memasukkan jumlah file yang berisiko mengandung malware. Karena kita sudah menemukan jumlahnya yaitu 5, tinggal kita masukkan
+
+<img width="466" height="325" alt="image" src="https://github.com/user-attachments/assets/7be2cce9-755e-4873-8d42-bb0038f15f7c" />
+
+Karena sudah berhasil sekarang kita diminta untuk mencari hash dari semua file yang kita temukan tadi (q,w,e,r,t) menggunakan sha256. Di sini kita cari protocol FTP-Data dari setiap file (yang mana aja boleh) dan kita TCP Stream.
+
+<img width="1444" height="818" alt="image" src="https://github.com/user-attachments/assets/1cff9f42-9218-43da-9128-7f1f1f65ace9" />
+
+Setelah kita TCP Stream, kita ubah "view as" nya ke raw
+
+<img width="965" height="210" alt="image" src="https://github.com/user-attachments/assets/c5f6b0b4-47aa-43e4-8ef9-240c3917f5c7" />
+
+Setelah kita ganti ke raw, kita save sesuai nama filenya.
+
+<img width="942" height="587" alt="image" src="https://github.com/user-attachments/assets/5534ff21-7a4f-45b0-ac2a-dcd07384a62a" />
+
+Setelah kita Save as, buka terminal dan gunakan "sha256sum (nama file)"
+
+<img width="634" height="77" alt="image" src="https://github.com/user-attachments/assets/e84d36e5-56d0-4383-b28c-e9f0df2da397" />
+
+Sekarang kita sudah dapat jawabannya untuk hash yang q.exe. yaitu
+`ca34b0926cdc3242bbfad1c4a0b42cc2750d90db9a272d92cfb6cb7034d2a3bd`
+Langsung saja kita masukkan
+
+<img width="609" height="170" alt="image" src="https://github.com/user-attachments/assets/fc118f30-40be-479d-8f25-9f283063003c" />
+
+nahh sudah berhasil. Sekarang kita lakukan hal yang sama ke sisa file nya (w,e,r,t)
+
+<img width="675" height="449" alt="image" src="https://github.com/user-attachments/assets/2f2a00e4-bb1a-465b-bda3-93941ff6600d" />
+
+dan kita masukkan ke dalam nc 10.15.43.32 3403
+
+<img width="866" height="340" alt="image" src="https://github.com/user-attachments/assets/a939c807-b27c-4041-beb7-45a3b588ce9f" />
+
+DAN YAP! kita mendapatkan flagnya yaitu KOMJAR25{Y0u_4r3_4_g00d_4nalyz3r_YYbYFF5ywIKJy37Ajnm8BEZ14}
 
 
 
