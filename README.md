@@ -88,6 +88,135 @@ Full default Network Configuration:
 Setelah menambahkan konfigurasi diatas, seharusnya setiap client bisa terhubung dan setiap client bisa mengakses internet.
 <img width="1917" height="956" alt="image" src="https://github.com/user-attachments/assets/df98fc87-40f8-429c-aac0-e8c4b524c6bd" />
 
+## PENGUJIAN TRAFFIC
+Pada no 6 diminta untuk sniffing traffic antara Manwe dan Eru dengan testcase yang diberikan.
+
+    cat <<EOF > traffic.sh
+    #!/bin/bash
+
+    echo "Memulai pembuatan traffic jaringan selama 10 detik..."
+
+    cleanup() {
+        echo ""
+        echo "Menghentikan semua proses pembuat traffic..."
+        kill $(jobs -p) > /dev/null 2>&1
+        echo "Selesai."
+    }
+
+    trap cleanup EXIT
+
+    ping -i 0.1 8.8.8.8 > /dev/null 2>&1 &
+
+    wget -qO /dev/null http://speedtest.tele2.net/10MB.zip &
+    wget -qO /dev/null http://proof.ovh.net/files/10Mb.dat &
+
+    nmap -T4 -F scanme.nmap.org > /dev/null 2>&1 &
+
+    sleep 10
+
+    EOF
+
+    chmod +x traffic.sh
+    ./traffic.sh
+
+<img width="1919" height="976" alt="image" src="https://github.com/user-attachments/assets/ffa3d5f1-2c8b-4403-b78a-17da373e7ae8" />
+
+## FTP SERVER
+Pada no 6 pada router Eru membuat ftp server dengan vsftpd. dengan 2 user Ainur(read&write) dan Melkor (No access) pada folder shared.
+### KONFIGURASI
+
+    apt install -y vsftpd 
+    
+    /etc/vsftpd.conf
+    # selain default configuration, menambah konfigurasi dibawah ini 
+    write_enable=YES
+    chroot_local_user=NO
+    chroot_list_enable=YES
+    chroot_list_file=/etc/vsftpd.userlist
+    local_root=/srv/ftp/shared
+    userlist_enable=YES
+    userlist_file=/etc/vsftpd.userlist
+    userlist_deny=YES    
+
+### USER & PERMISSION
+    adduser melkor 
+    adduser ainur 
+    echo "melkor" | tee -a /etc/vsftpd.userlist
+
+    # Folder
+    mkdir -p /srv/ftp/shared
+    chown -R ainur:ainur /srv/ftp/shared
+    chmod -R 700 /srv/ftp/shared
+
+### PENGUJIAN
+    service vsftpd restart
+
+- Pengujian bikin file
+  
+  <img width="501" height="257" alt="image" src="https://github.com/user-attachments/assets/df057d8b-d78f-4bea-99c0-dd453e0a552b" />
+- Pengujian akses ftp
+  
+  <img width="837" height="474" alt="image" src="https://github.com/user-attachments/assets/65fc5cbc-0cde-40fc-8aa2-6b54dea1133e" />
+- pengujian upload dan download untuk no 8 dan 9
+  Transfer dari ulmo
+  
+  <img width="1913" height="924" alt="image" src="https://github.com/user-attachments/assets/4019f288-e757-43a5-b6d8-6ab9bbd586b3" />
+  
+  Download dari manwe
+  
+  <img width="458" height="129" alt="image" src="https://github.com/user-attachments/assets/bf1fe7cb-6d08-480c-be59-7a4810db68d8" />
+  
+  ubah permission read only
+  
+  <img width="856" height="734" alt="image" src="https://github.com/user-attachments/assets/9b21d618-5706-425b-95df-b987f105f9f7" />
+
+
+## SPAM PING
+tes spam ping melkor ke eru
+`ping 192.168.122.64 -c 100`
+<img width="701" height="126" alt="image" src="https://github.com/user-attachments/assets/07d7ceb0-adf1-415c-b508-6e2e49359215" />
+
+## TELNET
+- Konfigurasi telnet no 11
+    adduser eru
+    apt install telnetd
+    apt install openbsd-inetd
+    echo "telnet stream tcp nowait root /usr/sbin/tcpd /usr/sbin/telnetd" >> /etc/inetd.conf
+    service openbsd-inetd restart
+
+- pengujian telnet dari eru ke melkor
+  <img width="843" height="346" alt="image" src="https://github.com/user-attachments/assets/cb35abcd-1046-4ee0-ac2e-92f5bf10f939" />
+
+## NETCAT
+- Open listen port untuk pengujian scan port
+    ```apt install netcat-openbsd
+    nc -l 21 >/dev/null 2>&1 &
+    nc -l 80 >/dev/null 2>&1 &
+    ```
+
+    <img width="832" height="279" alt="image" src="https://github.com/user-attachments/assets/368298cc-41b8-4574-b76f-f04d317f7036" />
+- Pengujian nc di Eru
+  
+  <img width="751" height="172" alt="image" src="https://github.com/user-attachments/assets/4d9246bd-25c4-40d7-8bb3-dc7d2e022f7d" />
+
+## SSH SERVER
+- Konfigurasi no 13 untuk koneksi ssh dari varda ke eru
+  ```
+  adduser varda
+  apt install -y openssh-server
+  service ssh start
+  ```
+
+- pengujian koneksi dari varda ke eru
+  
+  <img width="840" height="485" alt="image" src="https://github.com/user-attachments/assets/8d8f69d3-6bef-4e1f-8b8a-8705ac7aa4c8" />
+
+  terlihat protkol ssh packet yang dikirimkan  terenkripsi ketika dilihat lebih detail pada stream datanya
+  
+  <img width="1918" height="967" alt="image" src="https://github.com/user-attachments/assets/2426e4ef-d77c-4435-9b99-7cbb85e05707" />
+  
+  <img width="1275" height="994" alt="image" src="https://github.com/user-attachments/assets/61e09630-6afc-4657-9145-df232d460d5e" />
+
 
 
 # MODUL 1 - WIRESHARK
