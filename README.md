@@ -1,4 +1,4 @@
-# MODUL 1 (GNS & WIRESHARK)
+# MODUL 1 - GNS
 
 ## TOPOLOGI JARINGAN
 <img width="814" height="749" alt="image" src="https://github.com/user-attachments/assets/df20b092-d57f-41fd-af6f-6cf5128b4e12" />
@@ -88,7 +88,9 @@ Full default Network Configuration:
 Setelah menambahkan konfigurasi diatas, seharusnya setiap client bisa terhubung dan setiap client bisa mengakses internet.
 <img width="1917" height="956" alt="image" src="https://github.com/user-attachments/assets/df98fc87-40f8-429c-aac0-e8c4b524c6bd" />
 
-## PCAP ANALYSIS
+
+
+# MODUL 1 - WIRESHARK
 
 
 
