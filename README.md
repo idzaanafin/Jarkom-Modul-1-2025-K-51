@@ -412,9 +412,17 @@ pertama saya coba lihat request yang ada pada ip ini dengan cara `http.request`
 
 <img width="970" height="165" alt="image" src="https://github.com/user-attachments/assets/509cf241-463d-4a2a-850b-4c143e0fc95d" />
 
-Nah di sini muncul 3 file namun file yang berbahaya adalah yang ke dua dan ke tiga karena file pertama adalah .txt yang biasanya tidak berbahaya.
+Nah di sini muncul 3 file namun file yang berbahaya adalah yang ke dua dan ke tiga karena file pertama adalah .txt yang biasanya tidak berbahaya. jadi file berbahaya yang pertama dan kedua ada lah
+- `Invoice&MSO-Request.doc`
+- `knr.exe`
 
-Selanjutnya kita cari hash dari file pertama yaitu yang `Invoice&MSO-Request.doc`
+Selanjutnya kita cari hash dari file kedua yaitu yang `knr.exe`. yaitu dengan cara men export filenya dan di menggunakan command sha256 untuk mendapatkan hashnya.
+<img width="914" height="676" alt="image" src="https://github.com/user-attachments/assets/7be9a391-d6d3-4b7f-92f3-010d8d4cd9c8" />
+<img width="590" height="65" alt="image" src="https://github.com/user-attachments/assets/d75e71c9-6dd8-481e-8bdc-a82d4324d32b" />
+
+Dan Yap! kita sudah mendapatkan flagnya yaitu KOMJAR25{M4ster_4n4lyzer_AHbdBhHnEKTWOVEmptMWT3xod}
+
+
 
 
 
