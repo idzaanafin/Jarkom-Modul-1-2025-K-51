@@ -423,6 +423,107 @@ Selanjutnya kita cari hash dari file kedua yaitu yang `knr.exe`. yaitu dengan ca
 Dan Yap! kita sudah mendapatkan flagnya yaitu KOMJAR25{M4ster_4n4lyzer_AHbdBhHnEKTWOVEmptMWT3xod}
 
 
+### 18. MelkorPlan 3
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+
+<img width="1920" height="1046" alt="image" src="https://github.com/user-attachments/assets/5df3f702-9e7d-4f74-bfda-b2852e27ebe3" />
+
+#### Pengerjaan
+Nah pertama kita coba export file nya dalam format SMB
+
+<img width="751" height="218" alt="image" src="https://github.com/user-attachments/assets/bb7ec330-6b5f-4eb6-b4c8-3a36ed0b1034" />
+
+nahhh di sini kita menemukan 2 file mencurigakan yaitu
+- d0p2nc6ka3f_fixhohlycj4ovqfcy_smchzo_ub83urjpphrwahjwhv_o5c0fvf6.exe
+- oiku9bu68cxqenfmcsos2aek6t07_guuisgxhllixv8dx2eemqddnhyh46l8n_di.exe|
+
+Kemudian kita diminta untuk mencari hash dari kedua file tersebut, sama seperti soal sebelumnya jadi pertama kita extract file nya dan kita gunakan command sha256. dan dapat lah hashnya
+
+<img width="1195" height="54" alt="image" src="https://github.com/user-attachments/assets/b0cb72da-88ee-4589-b69d-e4b4f71746e3" />
+
+
+Hash file pertama
+- 59896ae5f3edcb999243c7bfdc0b17eb7fe28f3a66259d797386ea470c010040
+Hash file ke dua
+- cf99990bee6c378cbf56239b3cc88276eec348d82740f84e9d5c343751f82560
+
+Dan Yap! kita sudah mendapatkan flagnya yaitu KOMJAR25{Y0u_4re_g0dl1ke_odMSjkp4Z1p1t0TISwqwhqu3g}|
+
+### 19. Melkorplan 4
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+
+<img width="1920" height="1052" alt="image" src="https://github.com/user-attachments/assets/509f2eff-033f-4084-8cd4-00750fc64b54" />
+
+#### Pengerjaan
+
+Pertama saya coba filter dengan kata kunci "@" menggunakan `frame contains"@"`
+
+<img width="1374" height="531" alt="image" src="https://github.com/user-attachments/assets/cd76aa9f-ebd7-4ee9-9068-e344e7f6cb93" />
+
+Nah di sini terlihat banyak. kita coba TCP Stream salah satunya
+
+<img width="1019" height="711" alt="image" src="https://github.com/user-attachments/assets/346f38b2-51a0-4641-943c-23d0b048126d" />
+
+Setelah kita TCP Stream kita bisa tau bahwa pengirimnya adalah
+- Your Life
+
+dan dia meminta 1600 bitcoin
+
+<img width="353" height="61" alt="image" src="https://github.com/user-attachments/assets/b24c209b-b56c-4475-ac86-44ce3783c07d" />
+
+ke wallet 
+
+<img width="429" height="40" alt="image" src="https://github.com/user-attachments/assets/7d2a10c0-ae71-4cc1-8c78-60395d715777" />
+
+- 1CWHmuF8dHt7HBGx5RKKLgg9QA2GmE3UyL
+
+Dan Yap! Kita sudah mendapatkan flagnya yaitu OMJAR25{Y0u_4re_J4rk0m_G0d_ZjjVnkKgH1IqZYUNOL20Bmsdi}
+
+### 20. Melkor Plan 5
+
+#### Pengerjaan
+
+Pertama kita cek jenis enkripsi apa yang dipakai, kita bisa lihat ini dari melihat dari keyslogfile nya 
+
+<img width="1291" height="170" alt="image" src="https://github.com/user-attachments/assets/3c68f1bb-0533-4f2b-a58f-e55c63ae8277" />
+
+dalam log ini terdapat format yaitu `CLIENT_RANDOM <client_random> <master_secret>` yag menunjukkan kalau ini adalah
+- TLS
+
+kemudian kita coba cek file apa yang mencurigakan dengan cara sama seperti soal soal sebelumnya kita lihat di export
+
+<img width="744" height="538" alt="image" src="https://github.com/user-attachments/assets/4dd24410-842e-4a13-a58b-1cfd3bc51603" />
+
+Nahhh di sini kita bisa lihat ada file yang mencurigakan yaitu
+- invest_20.dll
+
+Selanjutnya kita coba cari hashnya menggunakan sha256
+
+<img width="667" height="71" alt="image" src="https://github.com/user-attachments/assets/4423f6c5-8388-4202-aced-1e74aec6429c" />
+
+okee jadi di sini kita sudah mendapatkan hashnya yaitu
+- 31cf42b2a7c5c558f44cfc67684cc344c17d4946d3a1e0b2cecb8eb58173cb2f
+
+Dan Yap! Kita sudah mendapatkan flagnya yaitu KOMJAR25{B3ware_0f_M4lw4re_l8S44DQDsbTyyjgAfQCbBqeHh}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
