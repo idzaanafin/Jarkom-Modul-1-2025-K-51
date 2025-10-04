@@ -402,5 +402,22 @@ dan kita masukkan ke dalam nc 10.15.43.32 3403
 DAN YAP! kita mendapatkan flagnya yaitu KOMJAR25{Y0u_4r3_4_g00d_4nalyz3r_YYbYFF5ywIKJy37Ajnm8BEZ14}
 
 
+### 17.Melkorplan 2
+Pertama kita download folder .zip dan extract. Setelah kita extract kita buka file .pcapng nya di wireshark.
+
+<img width="1920" height="1049" alt="image" src="https://github.com/user-attachments/assets/8624a53d-b9c3-4ad5-8a7a-84e1e67559c5" />
+
+#### Pengerjaan
+pertama saya coba lihat request yang ada pada ip ini dengan cara `http.request`
+
+<img width="970" height="165" alt="image" src="https://github.com/user-attachments/assets/509cf241-463d-4a2a-850b-4c143e0fc95d" />
+
+Nah di sini muncul 3 file namun file yang berbahaya adalah yang ke dua dan ke tiga karena file pertama adalah .txt yang biasanya tidak berbahaya.
+
+Selanjutnya kita cari hash dari file pertama yaitu yang `Invoice&MSO-Request.doc`
+
+
+
+
 
 
